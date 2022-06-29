@@ -29,15 +29,58 @@ components:
     mountSources: true
     volumes:
       - name: m2
-        containerPath: /home/user/.m2
+        containerPath: /home/user/.m2 
 commands:
-  - name: build
+  -
+    name: 1. Build
     actions:
-      - type: exec
-        command: cd $CHE_PROJECTS_ROOT/DevSpaces_JavaSample && mvn clean package
+      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+        type: exec
+        command: mvn -Pbootable-jar  clean package
         component: maven
-  - name: stop
+  -
+    name: 2. Run
     actions:
-      - type: exec
-        command: echo "stopping!"
+      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+        type: exec
+        command: mvn -Pbootable-jar -Dwildfly.bootable.arguments="-b=0.0.0.0"  org.wildfly.plugins:wildfly-jar-maven-plugin:run
         component: maven
+  -
+    name: 3. Build and run in debug
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+        type: exec
+        command: mvn -Pbootable-jar  -Dwildfly.bootable.arguments="-b=0.0.0.0" -Dwildfly.bootable.jvmArguments="-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8000,server=y,suspend=n" clean org.wildfly.plugins:wildfly-jar-maven-plugin:dev && 
+          mvn package -Ddev -Pbootable-jar && BOOTABLE_XP_PID=$(jps | grep microprofile-fault-tolerance-bootable.jar | awk '{print $1}') && while [[ ( -d /proc/$BOOTABLE_XP_PID ) && ( -z `grep zombie /proc/$BOOTABLE_XP_PID/status` ) ]]; do sleep 1; done 
+        component: maven
+  -
+    name: 4. Hot update
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+        type: exec
+        command: mvn package -Ddev  -Pbootable-jar
+        component: maven
+  -
+    name: 5. Stop server
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+        type: exec
+        command: mvn -Pbootable-jar  org.wildfly.plugins:wildfly-jar-maven-plugin:shutdown
+        component: maven
+  -
+    name: Debug (Attach)
+    actions:
+    - type: vscode-launch
+      referenceContent: |
+        {
+        "version": "0.2.0",
+        "configurations": [
+        {
+            "type": "java",
+            "request": "attach",
+            "name": "Debug (Attach)",
+            "hostName": "localhost",
+            "port": 8000
+        }
+        ]
+        }
