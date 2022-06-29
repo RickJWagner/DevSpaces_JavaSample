@@ -29,7 +29,7 @@ components:
     mountSources: true
     volumes:
       - name: m2
-        containerPath: /home/.m2
+        containerPath: /home/user/.m2
 commands:
   - name: build
     actions:
