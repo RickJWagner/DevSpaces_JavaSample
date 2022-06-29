@@ -37,4 +37,3 @@ commands:
     -
         type: exec
         command: scl enable rh-maven36 'mvn clean install'
-        component: maven
