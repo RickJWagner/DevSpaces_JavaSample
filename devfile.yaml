@@ -43,7 +43,7 @@ commands:
     actions:
     - 
        type: vscode-launch
-          referenceContent: |
+       referenceContent: |
         {
         "version": "0.2.0",
         "configurations": [
