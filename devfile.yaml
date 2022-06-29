@@ -35,7 +35,6 @@ commands:
     name: 1. Build
     actions:
     -
-        workdir: '${CHE_PROJECTS_ROOT}/SimpleMavenJava'
         type: exec
         command: scl enable rh-maven36 'mvn clean install'
         component: maven
