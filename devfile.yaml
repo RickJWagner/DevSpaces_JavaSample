@@ -31,28 +31,13 @@ components:
       - name: m2
         containerPath: /home/jboss/.m2
 commands:
-  -
-    name: 1. Build
+  - name: build_&_run
     actions:
-      -
-        type: exec
-        component: maven
-        command: "mvn package"
-        workdir: ${CHE_PROJECTS_ROOT}/DevSpaces_JavaSample
-    name: Debug (Attach)
+      - type: exec
+        command: cd $CHE_PROJECTS_ROOT/spring-petclinic && mvn clean install && cp $CHE_PROJECTS_ROOT/spring-petclinic/target/*.war $TOMCAT_HOME/webapps/ROOT.war && $TOMCAT_HOME/bin/catalina.sh run 2>&1
+        component: dev
+  - name: stop
     actions:
-    - 
-       type: vscode-launch
-       referenceContent: |
-        {
-        "version": "0.2.0",
-        "configurations": [
-        {
-            "type": "java",
-            "request": "attach",
-            "name": "Debug (Attach)",
-            "hostName": "localhost",
-            "port": 8000
-        }
-        ]
-        }
+      - type: exec
+        command: $TOMCAT_HOME/bin/catalina.sh stop 2>&1
+        component: dev
