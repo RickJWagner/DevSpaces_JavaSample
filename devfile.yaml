@@ -31,13 +31,13 @@ components:
       - name: m2
         containerPath: /home/jboss/.m2
 commands:
-  - name: build_&_run
+  - name: build
     actions:
       - type: exec
-        command: cd $CHE_PROJECTS_ROOT/spring-petclinic && mvn clean install && cp $CHE_PROJECTS_ROOT/spring-petclinic/target/*.war $TOMCAT_HOME/webapps/ROOT.war && $TOMCAT_HOME/bin/catalina.sh run 2>&1
-        component: dev
+        command: cd $CHE_PROJECTS_ROOT/DevSpaces_JavaSample && mvn clean package
+        component: maven
   - name: stop
     actions:
       - type: exec
-        command: $TOMCAT_HOME/bin/catalina.sh stop 2>&1
-        component: dev
+        command: echo "stopping!"
+        component: maven
