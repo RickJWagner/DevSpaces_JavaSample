@@ -34,6 +34,7 @@ commands:
   -
     name: 1. Build
     actions:
+    -
         type: exec
         component: maven
         command: "mvn package"
