@@ -38,20 +38,3 @@ commands:
         type: exec
         command: mvn  clean package
         component: maven
-  -
-    name: Debug (Attach)
-    actions:
-    - type: vscode-launch
-      referenceContent: |
-        {
-        "version": "0.2.0",
-        "configurations": [
-        {
-            "type": "java",
-            "request": "attach",
-            "name": "Debug (Attach)",
-            "hostName": "localhost",
-            "port": 8000
-        }
-        ]
-        }
