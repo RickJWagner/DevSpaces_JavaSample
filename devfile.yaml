@@ -34,6 +34,7 @@ commands:
   -
     name: 1. Build
     actions:
-    -
         type: exec
-        command: scl enable rh-maven36 'mvn clean install'
+        component: maven
+        command: "mvn package"
+        workdir: ${CHE_PROJECTS_ROOT}/DevSpaces_JavaSample
