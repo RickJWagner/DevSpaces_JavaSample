@@ -34,38 +34,9 @@ commands:
   -
     name: 1. Build
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
+      - workdir: '${CHE_PROJECTS_ROOT}/devspacesjavasample'
         type: exec
-        command: mvn -Pbootable-jar  clean package
-        component: maven
-  -
-    name: 2. Run
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
-        type: exec
-        command: mvn -Pbootable-jar -Dwildfly.bootable.arguments="-b=0.0.0.0"  org.wildfly.plugins:wildfly-jar-maven-plugin:run
-        component: maven
-  -
-    name: 3. Build and run in debug
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
-        type: exec
-        command: mvn -Pbootable-jar  -Dwildfly.bootable.arguments="-b=0.0.0.0" -Dwildfly.bootable.jvmArguments="-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8000,server=y,suspend=n" clean org.wildfly.plugins:wildfly-jar-maven-plugin:dev && 
-          mvn package -Ddev -Pbootable-jar && BOOTABLE_XP_PID=$(jps | grep microprofile-fault-tolerance-bootable.jar | awk '{print $1}') && while [[ ( -d /proc/$BOOTABLE_XP_PID ) && ( -z `grep zombie /proc/$BOOTABLE_XP_PID/status` ) ]]; do sleep 1; done 
-        component: maven
-  -
-    name: 4. Hot update
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
-        type: exec
-        command: mvn package -Ddev  -Pbootable-jar
-        component: maven
-  -
-    name: 5. Stop server
-    actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/jboss-eap-quickstart/microprofile-fault-tolerance'
-        type: exec
-        command: mvn -Pbootable-jar  org.wildfly.plugins:wildfly-jar-maven-plugin:shutdown
+        command: mvn  clean package
         component: maven
   -
     name: Debug (Attach)
