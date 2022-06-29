@@ -39,9 +39,3 @@ commands:
         type: exec
         command: scl enable rh-maven36 'mvn clean install'
         component: maven
-  - name: 2. Test
-    actions:
-    -
-        workdir: '${CHE_PROJECTS_ROOT}/SimpleMavenJava'
-        type: exec
-        command: "test.sh"
