@@ -38,7 +38,7 @@ commands:
         type: exec
         command: mvn  clean package
         component: maven
- -
+  -
     name: 2. Run
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/devspacesjavasample'
