@@ -38,3 +38,10 @@ commands:
         type: exec
         command: mvn  clean package
         component: maven
+ -
+    name: 2. Run
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/devspacesjavasample'
+        type: exec
+        command: mvn  clean package exec:java -Dexec.mainClass="hello.HelloWorld"
+        component: maven
